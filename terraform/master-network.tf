@@ -1,5 +1,6 @@
 # Creeate NIC
 # https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_interface
+# Creamos las interfaces de red para los nodos master
 
 resource "azurerm_network_interface" "mastersNic" {
   count               = length(var.masters)
@@ -23,6 +24,7 @@ resource "azurerm_network_interface" "mastersNic" {
 
 # IP pública
 # https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/public_ip
+# Creamos una ip pública para cada uno de los nodos master
 
 resource "azurerm_public_ip" "mastersPublicIp" {
   count               = length(var.masters)

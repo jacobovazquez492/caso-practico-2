@@ -1,4 +1,4 @@
-# Creamos una máquina virtual
+# Creamos las máquinas virtuales para los nodos worker
 # https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/linux_virtual_machine
 
 resource "azurerm_linux_virtual_machine" "workersVM" {
@@ -6,16 +6,18 @@ resource "azurerm_linux_virtual_machine" "workersVM" {
     name                = "${var.workers[count.index]}"
     resource_group_name = azurerm_resource_group.rg.name
     location            = azurerm_resource_group.rg.location
-    size                = var.vm_size
+    size                = var.vm_workers_size
     admin_username      = var.ssh_user
     network_interface_ids = [ azurerm_network_interface.workersNic[count.index].id ]
     disable_password_authentication = true
 
+    # Clave ssh para securizar la conexión al nodo
     admin_ssh_key {
         username   = var.ssh_user
         public_key = file(var.public_key_path)
     }
 
+    # Disco de escritura/lectura y de tipo estándar
     os_disk {
         caching              = "ReadWrite"
         storage_account_type = "Standard_LRS"
@@ -27,6 +29,7 @@ resource "azurerm_linux_virtual_machine" "workersVM" {
         publisher = "cognosys"
     }
 
+    # La imagen del SO con la que se creará la máquina virtual, requiere de aceptación previa de la licencia
     source_image_reference {
         publisher = "cognosys"
         offer     = "centos-8-stream-free"

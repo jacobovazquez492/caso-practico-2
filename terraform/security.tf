@@ -1,5 +1,6 @@
 # Security group
 # https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_security_group
+# Creamos una regla para permitir el acceso público mediante ssh a las máquinas virtuales
 
 resource "azurerm_network_security_group" "sshSecGroup" {
     name                = "sshtraffic"
@@ -23,7 +24,7 @@ resource "azurerm_network_security_group" "sshSecGroup" {
     }
 }
 
-# Vinculamos el security group al interface de red
+# Vinculamos el security group al interface de red de las distintas máquinas virtuales
 # https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_interface_security_group_association
 
 resource "azurerm_network_interface_security_group_association" "mastersSecGroupAssociation" {
@@ -35,5 +36,11 @@ resource "azurerm_network_interface_security_group_association" "mastersSecGroup
 resource "azurerm_network_interface_security_group_association" "workersSecGroupAssociation" {
     count                     = length(var.workers)
     network_interface_id      = azurerm_network_interface.workersNic[count.index].id
+    network_security_group_id = azurerm_network_security_group.sshSecGroup.id
+}
+
+resource "azurerm_network_interface_security_group_association" "nfsSecGroupAssociation" {
+    count                     = length(var.nfs)
+    network_interface_id      = azurerm_network_interface.nfsNic[count.index].id
     network_security_group_id = azurerm_network_security_group.sshSecGroup.id
 }

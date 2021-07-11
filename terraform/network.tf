@@ -12,11 +12,11 @@ resource "azurerm_virtual_network" "kubeNet" {
     }
 }
 
-# Creación de subnet
+# Creación de subred
 # https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/subnet
 
 resource "azurerm_subnet" "kubeSubnet" {
-    name                   = "terraformsubnet"
+    name                   = "kubernetessubnet"
     resource_group_name    = azurerm_resource_group.rg.name
     virtual_network_name   = azurerm_virtual_network.kubeNet.name
     address_prefixes       = ["192.168.1.0/24"]
