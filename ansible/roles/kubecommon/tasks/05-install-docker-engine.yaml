@@ -1,0 +1,25 @@
+---
+
+- name: Add Docker repository
+  yum_repository:
+    name: docker-ce-stable
+    description: Docker CE Stable - $basearch
+    baseurl: https://download.docker.com/linux/centos/$releasever/$basearch/stable
+    enabled: yes
+    gpgcheck: yes
+    gpgkey: https://download.docker.com/linux/centos/gpg
+  become: yes
+
+- name: Install docker-ce
+  dnf:
+    name:
+      - docker-ce-20.10.7-3.el8
+    state: present
+  become: yes
+
+- name: Enable and start service docker
+  systemd:
+    name: docker
+    state: started
+    enabled: yes
+  become: yes

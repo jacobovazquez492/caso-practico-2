@@ -1,0 +1,15 @@
+---
+
+- name: Add the br_netfilter module
+  modprobe:
+    name: br_netfilter
+    state: present
+  become: yes
+
+- name: Enable masquerade
+  firewalld:
+    masquerade: ''
+    state: enabled
+    permanent: yes
+    immediate: yes
+  become: yes

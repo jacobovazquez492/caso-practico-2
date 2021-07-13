@@ -1,0 +1,7 @@
+---
+
+- include_tasks: 01-create-nfs-directory.yaml
+- include_tasks: 02-install-nfs-utils.yaml
+- include_tasks: 03-nfs-service.yaml
+- include_tasks: 04-configure-exportfs.yaml
+- include_tasks: 05-configure-firewall.yaml

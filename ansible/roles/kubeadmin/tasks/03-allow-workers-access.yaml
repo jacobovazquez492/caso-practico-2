@@ -1,0 +1,9 @@
+---
+
+- name: Open 6443/tcp port
+  firewalld:
+    rich_rule: rule family=ipv4 source address=192.168.1.152/32 accept
+    permanent: yes
+    state: enabled
+    immediate: yes
+  become: yes

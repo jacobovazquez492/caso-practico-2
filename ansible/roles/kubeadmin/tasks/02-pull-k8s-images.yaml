@@ -1,0 +1,5 @@
+---
+pull k8s images
+- name: 
+  command:
+    cmd: kubeadm config images pull

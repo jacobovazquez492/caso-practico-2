@@ -1,0 +1,12 @@
+---
+
+- name: Disable SELinux
+  selinux:
+    state: disabled
+  register: result
+  become: yes
+
+- name: Reboot the machine
+  reboot:
+  become: yes
+  when: result.reboot_required|bool

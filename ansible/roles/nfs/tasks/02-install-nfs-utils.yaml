@@ -1,0 +1,9 @@
+---
+
+- name: Install or update nfs-utils and net-tools
+  dnf:
+    name:
+      - nfs-utils
+      - net-tools
+    state: latest
+  become: yes 

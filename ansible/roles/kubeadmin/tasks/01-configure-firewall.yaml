@@ -1,0 +1,49 @@
+---
+
+- name: Open 6443/tcp port
+  firewalld:
+    port: 6443/tcp
+    permanent: yes
+    state: enabled
+    immediate: yes
+  become: yes
+
+- name: Open 2379-2380/tcp port
+  firewalld:
+    port: 2379-2380/tcp
+    permanent: yes
+    state: enabled
+    immediate: yes
+  become: yes
+
+- name: Open 10250/tcp port
+  firewalld:
+    port: 10250/tcp
+    permanent: yes
+    state: enabled
+    immediate: yes
+  become: yes
+
+- name: Open 10251/tcp port
+  firewalld:
+    port: 10251/tcp
+    permanent: yes
+    state: enabled
+    immediate: yes
+  become: yes
+
+- name: Open 10252/tcp port
+  firewalld:
+    port: 10252/tcp
+    permanent: yes
+    state: enabled
+    immediate: yes
+  become: yes
+
+- name: Open 10255/tcp port
+  firewalld:
+    port: 10255/tcp
+    permanent: yes
+    state: enabled
+    immediate: yes
+  become: yes

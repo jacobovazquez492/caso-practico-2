@@ -1,0 +1,9 @@
+---
+
+- name: Configure master
+  hosts: all
+  gather_facts: false
+  roles:
+    - common
+    - kubecommon
+    - kubeadmin

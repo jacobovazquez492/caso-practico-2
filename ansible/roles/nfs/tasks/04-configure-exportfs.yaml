@@ -1,0 +1,12 @@
+---
+
+- name: Copy exports file
+  copy:
+    src: "exports"
+    dest: "/etc/exports"
+  become: yes
+
+- name: Update exportfs
+  command:
+    cmd: exportfs -r
+  become: yes

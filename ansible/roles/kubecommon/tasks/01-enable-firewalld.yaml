@@ -1,0 +1,24 @@
+---
+
+- name: Enable and start service firewalld
+  systemd:
+    name: firewalld
+    state: started
+    enabled: yes
+  become: yes
+
+- name: Set AllowZoneDrifting to 'no' to avoid security concerns
+  lineinfile:
+    dest: /etc/firewalld/firewalld.conf
+    regexp: 'AllowZoneDrifting'
+    line: 'AllowZoneDrifting=no'
+    backrefs: yes
+  register: result
+  become: yes
+
+- name: Reload service firewalld
+  systemd:
+    name: firewalld
+    state: reloaded
+  become: yes
+  when: result.changed|bool

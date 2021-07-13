@@ -1,0 +1,8 @@
+---
+
+- include_tasks: 01-enable-firewalld.yaml
+- include_tasks: 02-enable-masquerade.yaml
+- include_tasks: 03-k8s-iptables.yaml
+- include_tasks: 04-disable-swap.yaml
+- include_tasks: 05-install-docker-engine.yaml
+- include_tasks: 06-install-kubernetes.yaml

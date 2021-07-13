@@ -1,0 +1,18 @@
+---
+
+- name: Update system
+  dnf:
+    name: "*"
+    state: latest
+  become: yes
+
+- name: Check if reboot is needed
+  command: 
+    cmd: dnf needs-restarting -r
+    warn: no
+  register: result
+
+- name: Reboot the machine
+  reboot:
+  become: yes
+  when: result.rc|bool

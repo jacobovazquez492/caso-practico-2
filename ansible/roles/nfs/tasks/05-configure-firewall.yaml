@@ -1,0 +1,25 @@
+---
+
+- name: Open nfs port
+  firewalld:
+    service: nfs
+    permanent: yes
+    state: enabled
+    immediate: yes
+  become: yes
+
+- name: Open rpc-bind port
+  firewalld:
+    service: rpc-bind
+    permanent: yes
+    state: enabled
+    immediate: yes
+  become: yes
+
+- name: Open mountd port
+  firewalld:
+    service: mountd
+    permanent: yes
+    state: enabled
+    immediate: yes
+  become: yes
