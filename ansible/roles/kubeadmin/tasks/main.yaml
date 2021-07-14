@@ -2,4 +2,10 @@
 
 - include_tasks: 01-configure-firewall.yaml
 - include_tasks: 02-pull-k8s-images.yaml
-- include_tasks: 03-allow-workers-access.yaml
+- include_tasks: 03-allow-containers-localhost.yaml
+- include_tasks: 04-install-CNI.yaml
+- include_tasks: 05-configure-kube.yaml
+- include_tasks: 06-install-tigera.yaml
+- include_tasks: 07-install-calido.yaml
+- include_tasks: 08-install-ingress-controller.yaml
+- include_tasks: 09-create-k8s-adminuser.yaml

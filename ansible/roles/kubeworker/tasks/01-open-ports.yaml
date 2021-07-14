@@ -1,0 +1,17 @@
+---
+
+- name: Open 10250/tcp port
+  firewalld:
+    port: 10250/tcp
+    permanent: yes
+    state: enabled
+    immediate: yes
+  become: yes
+
+- name: Open 30000-32767/tcp ports
+  firewalld:
+    port: 30000-32767/tcp
+    permanent: yes
+    state: enabled
+    immediate: yes
+  become: yes

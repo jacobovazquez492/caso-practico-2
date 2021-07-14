@@ -1,0 +1,5 @@
+---
+
+- name: Install Tigera
+  command: kubectl create -f https://docs.projectcalico.org/manifests/tigera-operator.yaml
+  become: yes

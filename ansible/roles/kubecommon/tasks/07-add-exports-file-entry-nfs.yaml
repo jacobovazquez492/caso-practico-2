@@ -1,0 +1,19 @@
+---
+
+- name: Add host to exportfs
+  lineinfile:
+    path: /etc/exports
+    state: present
+    line: '/srv/nfs	{{ inventory_hostname }}(rw,sync)'
+    create: yes
+  become: yes
+  register: result
+  delegate_to: "{{ item }}"
+  with_items: "{{ groups['nfs'] }}"
+
+- name: Update exportfs
+  command:
+    cmd: exportfs -r
+  become: yes
+  delegate_to: "{{ item }}"
+  with_items: "{{ groups['nfs'] }}"

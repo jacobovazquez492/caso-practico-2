@@ -1,8 +1,9 @@
 ---
 
-- name: configure worker
+- name: Configure worker
   hosts: all
   gather_facts: false
   roles:
-#    - common
+    - common
     - kubecommon
+    - kubeworker

@@ -1,0 +1,9 @@
+---
+
+- name: Reset kubeadm
+  command: kubeadm reset -f
+  become: yes
+
+- name: Install CNI plugin and define pod's network
+  command: kubeadm init --pod-network-cidr 192.169.0.0/16
+  become: yes

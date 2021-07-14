@@ -1,0 +1,6 @@
+{% for item in groups['master'] %}
+/srv/nfs	{{ item }}(rw,sync)
+{% endfor %}
+{% for item in groups['workers'] %}
+/srv/nfs	{{ item }}(rw,sync)
+{% endfor %}

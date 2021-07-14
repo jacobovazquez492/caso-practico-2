@@ -1,7 +1,7 @@
 ---
 
-- name: configure nfs
-  hosts: all
+- name: Configure nfs
+  hosts: nfs
   gather_facts: false
   roles:
     - common

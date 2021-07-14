@@ -6,3 +6,4 @@
 - include_tasks: 04-disable-swap.yaml
 - include_tasks: 05-install-docker-engine.yaml
 - include_tasks: 06-install-kubernetes.yaml
+- include_tasks: 07-add-exports-file-entry-nfs.yaml

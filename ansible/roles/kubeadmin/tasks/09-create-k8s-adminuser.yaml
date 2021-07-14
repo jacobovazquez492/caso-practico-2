@@ -1,0 +1,26 @@
+---
+
+- name: Create user kubeadmin
+  user:
+    name: kubeadmin
+    password: $6$iHT8cAWK8Gj1V5mjp/G.FXSBQdNf3yzK.gxdQ74bg.gF6LW.JKrRadWNQj9mHlqGoJI/LmH9JM87NPWrjgR81.
+  become: yes
+
+- name: Create .kube directory
+  file:
+    path: /home/kubeadmin/.kube
+    state: directory
+  become: yes
+
+- name: Copy admin.conf to kubeadmin's kube config
+  copy:
+    src: /etc/kubernetes/admin.conf
+    dest: /home/kubeadmin/.kube/config
+    remote_src: yes
+  become: yes
+
+- name: Give kubeadmin permissions to amdin.conf file
+  file:
+    path: /root/.kube/config
+    owner: kubeadmin
+  become: yes

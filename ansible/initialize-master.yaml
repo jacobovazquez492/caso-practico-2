@@ -1,7 +1,7 @@
 ---
 
 - name: Configure master
-  hosts: all
+  hosts: master
   gather_facts: false
   roles:
     - common

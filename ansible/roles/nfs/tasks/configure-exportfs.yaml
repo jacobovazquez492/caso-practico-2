@@ -1,9 +1,9 @@
 ---
 
-- name: Copy exports file
-  copy:
-    src: "exports"
-    dest: "/etc/exports"
+- name: Create exports file
+  template:
+    src: exports.j2
+    dest: /etc/exports
   become: yes
 
 - name: Update exportfs

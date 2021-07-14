@@ -1,0 +1,21 @@
+---
+
+- name: Create .kube directory
+  file:
+    path: /root/.kube
+    state: directory
+  become: yes
+
+- name: Copy admin.conf to root's kube config
+  copy:
+    src: /etc/kubernetes/admin.conf
+    dest: /root/.kube/config
+    remote_src: yes
+  become: yes
+
+- name: Give root permissions to amdin.conf file
+  file:
+    path: /root/.kube/config
+    owner: root
+    group: root
+  become: yes
