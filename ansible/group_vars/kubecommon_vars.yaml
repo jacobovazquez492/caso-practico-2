@@ -1,0 +1,5 @@
+---
+
+docker_tool: ['docker-ce-20.10.7-3.el8']
+kubernetes_tools: ['kubelet', 'kubeadm', 'kubectl']
+azure_sdn_ports: ['8285/udp', '8472/udp']

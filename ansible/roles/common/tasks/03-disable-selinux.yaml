@@ -9,4 +9,5 @@
 - name: Reboot the machine
   reboot:
   become: yes
+  # Only reboot when required by selinux command
   when: result.reboot_required|bool

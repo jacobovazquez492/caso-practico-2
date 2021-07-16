@@ -3,6 +3,10 @@
 - name: Configure master
   hosts: master
   gather_facts: false
+  vars_files:
+    - "group_vars/common_vars.yaml"
+    - "group_vars/kubecommon_vars.yaml"
+    - "group_vars/kubeadmin_vars.yaml"
   roles:
     - common
     - kubecommon

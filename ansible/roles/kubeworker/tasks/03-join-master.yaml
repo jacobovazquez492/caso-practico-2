@@ -1,17 +1,26 @@
 ---
 
-- name: Get join command from master
-  command: kubeadm token create --print-join-command
-  delegate_to: "{{ item }}"
-  register: join_command
-  become: yes
-  with_items: "{{ groups['master'] }}"
-
+# Reset k8s settings to avoid problems when setting up a previously configured k8s master
 - name: Reset kubeadm
   command: kubeadm reset -f
   become: yes
 
+- name: Get join command from master
+  command: kubeadm token create --print-join-command  
+  register: join_command
+  become: yes
+  # Execute in the master node instead of the ansible controller
+  delegate_to: "{{ item }}"
+  # Use the hosts declared in the master group in the hosts file to execute this command
+  with_items: "{{ groups['master'] }}"
+
+# Sleep for 30 seconds to allow settings to reset properly
+- name: Sleep for 30 seconds and continue with play
+  wait_for:
+    timeout: 30
+
 - name: Join worker to masters
   command: "{{ item.stdout }}"
+  # Execute the command returned by the previous task. If there is more than one master node, it will run for all
   with_items: "{{ join_command.results }}"
   become: yes

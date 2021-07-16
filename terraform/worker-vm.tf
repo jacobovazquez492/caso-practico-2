@@ -11,6 +11,8 @@ resource "azurerm_linux_virtual_machine" "workersVM" {
     network_interface_ids = [ azurerm_network_interface.workersNic[count.index].id ]
     disable_password_authentication = true
 
+    custom_data = base64encode(data.template_file.cloud_config.rendered)
+
     # Clave ssh para securizar la conexión al nodo
     admin_ssh_key {
         username   = var.ssh_user

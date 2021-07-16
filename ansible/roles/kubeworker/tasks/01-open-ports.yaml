@@ -1,17 +1,11 @@
 ---
 
-- name: Open 10250/tcp port
+# Open the ports declared in the file kubeworker_vars
+- name: Open {{ kubeworker_ports }} ports
   firewalld:
-    port: 10250/tcp
+    port: "{{ item }}"
     permanent: yes
     state: enabled
     immediate: yes
   become: yes
-
-- name: Open 30000-32767/tcp ports
-  firewalld:
-    port: 30000-32767/tcp
-    permanent: yes
-    state: enabled
-    immediate: yes
-  become: yes
+  with_items: "{{ kubeworker_ports }}"

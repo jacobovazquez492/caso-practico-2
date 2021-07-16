@@ -4,3 +4,4 @@
 - include_tasks: 02-synchronize-time.yaml
 - include_tasks: 03-disable-selinux.yaml
 - include_tasks: 04-install-tools.yaml
+- include_tasks: 05-enable-firewalld.yaml

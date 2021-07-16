@@ -1,9 +1,8 @@
 ---
 
-- name: Install or update nfs-utils and net-tools
+# Install the packages set in nfs_vars file
+- name: Install or update {{ nfs_tools }}
   dnf:
-    name:
-      - nfs-utils
-      - net-tools
+    name: "{{ nfs_tools }}"
     state: latest
   become: yes 

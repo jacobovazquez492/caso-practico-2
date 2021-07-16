@@ -1,0 +1,4 @@
+---
+
+nfs_tools: ['net-tools']
+nfs_ports: ['nfs', 'rpc-bind', 'mountd']

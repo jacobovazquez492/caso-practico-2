@@ -7,5 +7,7 @@
      state: enabled
      immediate: yes
    become: yes
+   # Execute in the master node instead of the ansible controller
    delegate_to: "{{ item }}"
+   # Use the hosts declared in the master group in the hosts file to execute this command
    with_items: "{{ groups['master'] }}"  

@@ -1,0 +1,6 @@
+---
+
+# Use the file in the http path to install flannel
+- name: Install flannel
+  command: kubectl apply -f https://docs.projectcalico.org/manifests/canal.yaml
+  become: yes

@@ -1,5 +1,7 @@
 ---
 
+# Example task using a j2 template to configure all master and workers nodes in the exportfs file in nfs nodes
+
 - name: Create exports file
   template:
     src: exports.j2

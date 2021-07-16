@@ -5,7 +5,11 @@
 - include_tasks: 03-allow-containers-localhost.yaml
 - include_tasks: 04-install-cni.yaml
 - include_tasks: 05-configure-kube.yaml
-- include_tasks: 06-install-tigera.yaml
-- include_tasks: 07-install-calico.yaml
-- include_tasks: 08-install-ingress-controller.yaml
-- include_tasks: 09-create-k8s-adminuser.yaml
+- include_tasks: 06-install-calico.yaml
+# Run this task only when env variable in common_vars indicates local environment
+  when: env == 'local'
+- include_tasks: 06-install-azure-sdn.yaml
+# Run this task only when env variable in common_vars indicates azure environment
+  when: env == 'azure'
+- include_tasks: 07-install-ingress-controller.yaml
+- include_tasks: 08-create-k8s-adminuser.yaml

@@ -1,5 +1,6 @@
 ---
 
+# Use  modprobe module to load br_netfilter module
 - name: Add the br_netfilter module
   modprobe:
     name: br_netfilter
@@ -9,7 +10,10 @@
 - name: Enable masquerade
   firewalld:
     masquerade: ''
+    # Enable masquerade
     state: enabled
+    # Persist change between reboots
     permanent: yes
+    # Make changes available immediately
     immediate: yes
   become: yes

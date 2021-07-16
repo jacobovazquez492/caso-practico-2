@@ -1,0 +1,26 @@
+---
+
+# Use the file in the http path to install Tigera
+- name: Install Tigera
+  command: kubectl create -f https://docs.projectcalico.org/manifests/tigera-operator.yaml
+  become: yes
+
+# Dowload the file in the http path to install Calico
+- name: Download custom-resources file for Calico
+  get_url:
+    url: https://docs.projectcalico.org/manifests/custom-resources.yaml
+    dest: /tmp/custom-resources.yaml
+
+# Change the previously downloaded file to use the docker network declared in the kubeadmin_vars file
+- name: Change cidr for Calico
+  replace:
+    path: /tmp/custom-resources.yaml
+    # Find the line with the value of cidr
+    regexp: '(cidr:)(.*)'
+    # Change the net value of the previous line
+    replace: '\1 "{{ dockers_net }}"'
+
+# Install Calico using the previous modified file
+- name: Install Calico
+  command: kubectl apply -f /tmp/custom-resources.yaml
+  become: yes

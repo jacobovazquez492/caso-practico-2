@@ -1,49 +1,14 @@
 ---
 
-- name: Open 6443/tcp port
+# Open the ports defined in kubeadmin_vars file
+- name: Open {{ kubeadmin_ports }} ports
   firewalld:
-    port: 6443/tcp
+    port: "{{ item }}"
+    # Persist change between reboots
     permanent: yes
+    # Open the ports
     state: enabled
+    # Make changes available immediately
     immediate: yes
   become: yes
-
-- name: Open 2379-2380/tcp port
-  firewalld:
-    port: 2379-2380/tcp
-    permanent: yes
-    state: enabled
-    immediate: yes
-  become: yes
-
-- name: Open 10250/tcp port
-  firewalld:
-    port: 10250/tcp
-    permanent: yes
-    state: enabled
-    immediate: yes
-  become: yes
-
-- name: Open 10251/tcp port
-  firewalld:
-    port: 10251/tcp
-    permanent: yes
-    state: enabled
-    immediate: yes
-  become: yes
-
-- name: Open 10252/tcp port
-  firewalld:
-    port: 10252/tcp
-    permanent: yes
-    state: enabled
-    immediate: yes
-  become: yes
-
-- name: Open 10255/tcp port
-  firewalld:
-    port: 10255/tcp
-    permanent: yes
-    state: enabled
-    immediate: yes
-  become: yes
+  with_items: "{{ kubeadmin_ports }}"

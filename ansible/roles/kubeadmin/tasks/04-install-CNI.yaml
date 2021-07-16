@@ -1,9 +1,11 @@
 ---
 
+# Reset k8s settings to avoid problems when setting up a previously configured k8s master
 - name: Reset kubeadm
   command: kubeadm reset -f
   become: yes
 
+# Use the variable defined in kubeadmin_vars with the pods network
 - name: Install CNI plugin and define pod's network
-  command: kubeadm init --pod-network-cidr 192.169.0.0/16
+  command: kubeadm init --pod-network-cidr "{{ dockers_net }}"
   become: yes

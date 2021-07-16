@@ -4,7 +4,10 @@
   firewalld:
     rich_rule: rule family=ipv4 source address=172.17.0.0/16 accept
     zone: public
+    # Persist change between reboots
     permanent: yes
+    # Open the ports
     state: enabled
+    # Make changes available immediately
     immediate: yes
   become: yes

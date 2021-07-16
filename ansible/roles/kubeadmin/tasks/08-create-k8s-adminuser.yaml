@@ -16,6 +16,7 @@
   copy:
     src: /etc/kubernetes/admin.conf
     dest: /home/kubeadmin/.kube/config
+    # Execute the command in the master machine not in the ansible controller
     remote_src: yes
   become: yes
 

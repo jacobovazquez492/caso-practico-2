@@ -8,6 +8,8 @@
 - name: Comment swap line on fstab file
   replace:
     path: /etc/fstab
+    # Look for the line that configures the swap in /etc/fstab and that is not yet commented
     regexp: '(^[^#].*\sswap\s.*)'
+    # Comment the previously found line
     replace: '# \1'
   become: yes

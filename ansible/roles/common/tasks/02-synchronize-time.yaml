@@ -1,8 +1,9 @@
 ---
 
-- name: Set timezone to Europe/Madrid
+# Use the timezone set in common_vars file
+- name: Set timezone to {{ timezone }}
   timezone:
-    name: Europe/Madrid
+    name: "{{ timezone }}"
   become: yes
 
 - name: Install chrony

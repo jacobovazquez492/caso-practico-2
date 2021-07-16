@@ -10,7 +10,9 @@
 - name: Set AllowZoneDrifting to 'no' to avoid security concerns
   lineinfile:
     dest: /etc/firewalld/firewalld.conf
+    # Find the line matchin this regexp
     regexp: 'AllowZoneDrifting'
+    # Replace all the matched line with this value
     line: 'AllowZoneDrifting=no'
     backrefs: yes
   register: result
@@ -21,4 +23,5 @@
     name: firewalld
     state: reloaded
   become: yes
+  # Reload firewalld config only when the previous command change the state
   when: result.changed|bool

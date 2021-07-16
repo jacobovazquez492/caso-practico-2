@@ -8,16 +8,16 @@
     enabled: yes
     gpgcheck: yes
     gpgkey: https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
+    # Do not update this packages to avoid configuration problems
     exclude: kubelet kubeadm kubectl
   become: yes
 
+# Install the k8s packaged declared in kubecommon_var file
 - name: Install Kubernetes
   dnf:
-    name:
-      - kubelet
-      - kubeadm
-      - kubectl
+    name: "{{ kubernetes_tools }}"
     state: present
+    # Because this is the first time we install this packages, we need to disable the exclusion previously configured
     disable_excludes: kubernetes
   become: yes
 

@@ -10,10 +10,10 @@
     gpgkey: https://download.docker.com/linux/centos/gpg
   become: yes
 
+# Install the docker package declared in kubecommon_vars file
 - name: Install docker-ce
   dnf:
-    name:
-      - docker-ce-20.10.7-3.el8
+    name: "{{ docker_tool }}"
     state: present
   become: yes
 

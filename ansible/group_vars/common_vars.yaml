@@ -1,0 +1,6 @@
+---
+
+env: 'local'
+
+timezone: 'Europe/Madrid'
+common_tools: ['nfs-utils', 'nfs4-acl-tools', 'wget']

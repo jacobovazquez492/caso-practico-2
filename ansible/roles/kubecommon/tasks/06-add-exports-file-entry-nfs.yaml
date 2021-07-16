@@ -1,0 +1,24 @@
+---
+
+- name: Add host to exportfs
+  # Make sure the line exists in the file, otherwise add it
+  lineinfile:
+    path: /etc/exports
+    state: present
+    # Use the ip of the host being configured to add the line in the file
+    line: '/srv/nfs	{{ inventory_hostname }}(rw,sync)'
+    create: yes
+  become: yes
+  # Execute in the nfs node instead of the ansible controller
+  delegate_to: "{{ item }}"
+  # Use the hosts declared in the nfs group in the hosts file to execute this command
+  with_items: "{{ groups['nfs'] }}"
+
+- name: Update exportfs
+  command:
+    cmd: exportfs -r
+  become: yes
+  # Execute in the nfs node instead of the ansible controller
+  delegate_to: "{{ item }}"
+  # Use the hosts declared in the nfs group in the hosts file to execute this command
+  with_items: "{{ groups['nfs'] }}"

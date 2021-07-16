@@ -1,9 +1,11 @@
 ---
 
-- include_tasks: 01-enable-firewalld.yaml
-- include_tasks: 02-enable-masquerade.yaml
-- include_tasks: 03-k8s-iptables.yaml
-- include_tasks: 04-disable-swap.yaml
-- include_tasks: 05-install-docker-engine.yaml
-- include_tasks: 06-install-kubernetes.yaml
-- include_tasks: 07-add-exports-file-entry-nfs.yaml
+- include_tasks: 01-enable-masquerade.yaml
+- include_tasks: 02-k8s-iptables.yaml
+- include_tasks: 03-disable-swap.yaml
+- include_tasks: 04-install-docker-engine.yaml
+- include_tasks: 05-install-kubernetes.yaml
+- include_tasks: 06-add-exports-file-entry-nfs.yaml
+- include_tasks: 07-open-azure-sdn-ports.yaml
+  # Run this task only when env variable in common_vars indicates azure environment
+  when: env == 'azure'

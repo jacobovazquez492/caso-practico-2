@@ -1,5 +1,6 @@
 ---
 
+# Use the sysctl module to enable the property
 - name: Set net.bridge.bridge-nf-call-ip6tables to 1
   sysctl:
     name: net.bridge.bridge-nf-call-ip6tables
@@ -7,6 +8,7 @@
     state: present
   become: yes
 
+# Use the sysctl module to enable the property
 - name: Set net.bridge.bridge-nf-call-iptables to 1
   sysctl:
     name: net.bridge.bridge-nf-call-iptables

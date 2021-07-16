@@ -9,10 +9,16 @@
 - name: Check if reboot is needed
   command: 
     cmd: dnf needs-restarting -r
-    warn: no
-  register: result
+    # Avoid warning to use dnf module, it does not support this functionality
+    warn: false
+  register: reboot_required
+  # Only fails when an error occurs
+  failed_when: reboot_required.rc == 2
+  # Mark as changed only when a restart is required
+  changed_when: reboot_required.rc == 1
 
+# Reboot only when a restart is required
 - name: Reboot the machine
   reboot:
   become: yes
-  when: result.rc|bool
+  when: reboot_required.rc|bool

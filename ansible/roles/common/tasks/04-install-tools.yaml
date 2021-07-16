@@ -1,10 +1,8 @@
 ---
 
-- name: Install or update nfs-utils, nfs4-acl-tools and wget
+# Install the packages set in common_vars file
+- name: Install or update {{ common_tools }}
   dnf:
-    name:
-      - nfs-utils
-      - nfs4-acl-tools
-      - wget
+    name: "{{ common_tools }}"
     state: latest
   become: yes
