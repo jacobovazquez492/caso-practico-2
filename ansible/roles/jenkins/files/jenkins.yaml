@@ -1,5 +1,6 @@
 ---
 
+# Create a Persistan Volume in the jenkins namespace mapped to the nfs server
 apiVersion: v1
 kind: PersistentVolume
 metadata:
@@ -9,19 +10,25 @@ spec:
   capacity:
     storage: 10Gi
   volumeMode: Filesystem
+  # Allow read and wrte by multiple nodes
   accessModes:
     - ReadWriteMany
+  # Recicle the PV when is not linked
   persistentVolumeReclaimPolicy: Recycle
+  # Use a nfs to create de PV
   storageClassName: nfs
   mountOptions:
     - hard
     - nfsvers=4.1
   nfs:
+    # Path of the nfs directory in the nfs server
     path: /srv/nfs
+    # This internal ip is modified by the playbook
     server: 192.168.1.105
 
 ---
 
+# Create a Persistent Volume Claim to by used as a volumen by the Pod
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
@@ -37,6 +44,7 @@ spec:
 
 ---
 
+#Create de deployment indicatin the image to use
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -45,6 +53,7 @@ metadata:
   labels:
     app: jenkins
 spec:
+  # Number of pods to kepp online
   replicas: 1
   selector:
     matchLabels:
@@ -56,22 +65,28 @@ spec:
     spec:
       containers:
       - name: jenkins
+        # Docker image to use
         image: jenkins/jenkins:lts-jdk11
+        # Por to be exposed
         ports:
         - containerPort: 8080
+        # Path inside the pod to be mapped to the volumen
         volumeMounts:
         - name: jenkins-home
           mountPath: /var/jenkins_home
         env:
+        # Deploy Jenkins using the /jenkins url patch
         - name: JENKINS_OPTS
           value: "--prefix=/jenkins"
       volumes:
+      # Map the previus create Persistent Volume Claim to the used by the volume created for this image
       - name: jenkins-home
         persistentVolumeClaim:
           claimName: jenkins-pvc
 
 ---
 
+# Create the Kubernetes service to deploy Jenkins
 apiVersion: v1
 kind: Service
 metadata:
@@ -80,6 +95,7 @@ metadata:
 spec:
   selector:
     app: jenkins
+  # This type is only accesible inside the cluster, we need an ingress to allow the access outside the cluster
   type: ClusterIP
   ports:
   - name: http
@@ -89,6 +105,7 @@ spec:
 
 ---
 
+# Ingres config to allow the access to Jenkins from outside the cluster
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -100,9 +117,11 @@ spec:
   rules:
    - http:
       paths:
+      # Url patch to access the Jenkins
       - path: /jenkins
         pathType: Prefix
         backend:
+           # Service connected from this ingress inside the cluster
           service:
             name: jenkins
             port:
