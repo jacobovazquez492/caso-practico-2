@@ -19,7 +19,7 @@
 # Delete jenkins namespace to avoid problems redeploying the app
 - name: Delete Jenkins namespace
   command: kubectl delete namespace jenkins
-  register: 
+  register: namespace_exists
   # Do not fail if namespace does not exists
   failed_when: namespace_exists.rc == 2
   become: yes
@@ -47,3 +47,30 @@
   command: kubectl apply -f /tmp/jenkins.yaml
   become: yes
   become_user: kubeadmin
+
+# Get haproxy http port
+- name: Get haproxy deploy port
+  shell: kubectl get svc haproxy-ingress --namespace=haproxy-controller -o jsonpath="{.spec.ports[?(@.name == 'http')].nodePort}"
+  become: yes
+  become_user: kubeadmin
+  register: jenkins_port
+
+# Pause for 1 minute to start Jenkins
+- pause:
+    seconds: 25
+
+# Get jenkins pod log
+- name: Get jenkins pod log
+  shell: kubectl logs --tail=20 $(kubectl get pods -n jenkins -o jsonpath="{.items[0].metadata.name}") -n jenkins
+  become: yes
+  become_user: kubeadmin
+  register: jenkins_log
+
+# Print the jenkins access port
+- debug:
+    var: jenkins_port.stdout
+
+# Print Jenkins pod log
+- debug:
+    var: jenkins_log.stdout_lines
+    

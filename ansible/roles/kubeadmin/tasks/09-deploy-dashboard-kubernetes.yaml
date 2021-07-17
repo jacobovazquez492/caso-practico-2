@@ -50,9 +50,10 @@
   become_user: kubeadmin
   register: dashboard_port
 
+# Print the secret token to by used in the dashboard for authentication
 - debug:
     var: secret_token.stdout
 
+# Print the dashboard access port
 - debug:
     var: dashboard_port.stdout
-  
