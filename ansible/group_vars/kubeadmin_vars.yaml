@@ -2,3 +2,4 @@
 
 kubeadmin_ports: ['6443/tcp', '2379-2380/tcp', '10250/tcp', '10251/tcp', '10252/tcp', '10255/tcp']
 dockers_net: '192.169.0.0/16'
+kubeadmin_password: '$6$ZtNV45u/jGDfV0O+$yVLIjMP7LfC4oWh2Friiccuy8x3Esofl9JuvRnC8A.UiGBDkI8TJS3pPLpR83YxNCd6ZQ/MkAiERwM7GYIloL1'

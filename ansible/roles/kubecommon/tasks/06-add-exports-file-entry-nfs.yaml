@@ -6,7 +6,7 @@
     path: /etc/exports
     state: present
     # Use the ip of the host being configured to add the line in the file
-    line: '/srv/nfs	{{ inventory_hostname }}(rw,sync)'
+    line: '/srv/nfs	{{ ansible_default_ipv4.address }}(rw,sync)'
     create: yes
   become: yes
   # Execute in the nfs node instead of the ansible controller

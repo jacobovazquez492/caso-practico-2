@@ -4,4 +4,5 @@
   file:
     path: /srv/nfs
     state: directory
+    mode: '1777'
   become: yes

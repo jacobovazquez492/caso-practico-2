@@ -1,7 +1,7 @@
 ---
 
 - name: Configure nfs
-  hosts: nfs
+  hosts: all
   gather_facts: false
   vars_files:
     - "group_vars/common_vars.yaml"

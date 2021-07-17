@@ -2,7 +2,7 @@
 
  - name: Allow worker access to master
    firewalld:
-     rich_rule: rule family=ipv4 source address="{{ inventory_hostname }}"/32 accept
+     rich_rule: rule family=ipv4 source address="{{ ansible_default_ipv4.address }}"/32 accept
      permanent: yes
      state: enabled
      immediate: yes

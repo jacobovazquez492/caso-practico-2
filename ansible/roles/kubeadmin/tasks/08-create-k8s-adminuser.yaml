@@ -3,7 +3,7 @@
 - name: Create user kubeadmin
   user:
     name: kubeadmin
-    password: $6$iHT8cAWK8Gj1V5mjp/G.FXSBQdNf3yzK.gxdQ74bg.gF6LW.JKrRadWNQj9mHlqGoJI/LmH9JM87NPWrjgR81.
+    password: "{{ kubeadmin_password }}"
   become: yes
 
 - name: Create .kube directory

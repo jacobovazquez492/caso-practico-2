@@ -1,0 +1,58 @@
+---
+
+# Use the file in the http path to install the Dashboard Kubernetes
+- name: Deploy dashboard kubernetes
+  command: kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.0.0/aio/deploy/recommended.yaml
+  become: yes
+  become_user: kubeadmin
+
+# Change service spec from ClusterIP to NodePort
+- name: Change service spec to NodePort
+  command: kubectl patch svc kubernetes-dashboard --namespace=kubernetes-dashboard --type='json' -p '[{"op":"replace","path":"/spec/type","value":"NodePort"}]'
+  become: yes
+  become_user: kubeadmin
+
+- name: Copy dashboard-adminuser.yaml to remote
+  copy:
+    src: dashboard-adminuser.yaml
+    dest: /tmp/dashboard-adminuser.yaml
+    follow: no
+
+# Create dashboard admin user
+- name: Create dashboard admin user
+  command: kubectl apply -f /tmp/dashboard-adminuser.yaml
+  become: yes
+  become_user: kubeadmin
+  
+- name: Copy dashboard-clusterrole.yaml to remote
+  copy:
+    src: dashboard-clusterrole.yaml
+    dest: /tmp/dashboard-clusterrole.yaml
+    follow: no
+
+# Create dashboard cluster role
+- name: Create dashboard cluster role
+  command: kubectl apply -f /tmp/dashboard-clusterrole.yaml
+  become: yes
+  become_user: kubeadmin
+
+# Get secret token
+- name: Get secret token
+  shell: kubectl -n kubernetes-dashboard get secret $(kubectl -n kubernetes-dashboard get sa/admin-user -o jsonpath="{.secrets[0].name}") -o jsonpath="{.data.token}" | base64 -d
+  become: yes
+  become_user: kubeadmin
+  register: secret_token
+
+# Get dahsboard deploy port
+- name: Get dahsboard deploy port
+  shell: kubectl get svc --namespace=kubernetes-dashboard --field-selector metadata.name="kubernetes-dashboard" -o jsonpath="{.items[*].spec.ports[*].nodePort}"
+  become: yes
+  become_user: kubeadmin
+  register: dashboard_port
+
+- debug:
+    var: secret_token.stdout
+
+- debug:
+    var: dashboard_port.stdout
+  

@@ -1,0 +1,9 @@
+---
+
+- name: Deploy Jenkins
+  hosts: all
+  gather_facts: false
+  vars_files:
+    - "group_vars/jenkins_vars.yaml"
+  roles:
+    - jenkins

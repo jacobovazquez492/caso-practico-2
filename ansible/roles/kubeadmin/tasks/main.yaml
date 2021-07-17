@@ -13,3 +13,4 @@
   when: env == 'azure'
 - include_tasks: 07-install-ingress-controller.yaml
 - include_tasks: 08-create-k8s-adminuser.yaml
+- include_tasks: 09-deploy-dashboard-kubernetes.yaml

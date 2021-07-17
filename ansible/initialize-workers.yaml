@@ -2,7 +2,7 @@
 
 - name: Configure worker
   hosts: all
-  gather_facts: false
+  gather_facts: true
   vars_files:
     - "group_vars/common_vars.yaml"
     - "group_vars/kubecommon_vars.yaml"

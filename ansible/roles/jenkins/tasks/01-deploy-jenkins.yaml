@@ -1,0 +1,44 @@
+---
+
+- name: Copy jenkins.yaml to remote
+  copy:
+    src: jenkins.yaml
+    dest: /tmp/jenkins.yaml
+    follow: no
+
+# Change the previously downloaded file to use the docker network declared in the kubeadmin_vars file
+- name: Change nfs server ip
+  replace:
+    path: /tmp/jenkins.yaml
+    # Find the line with the value of cidr
+    regexp: '(server:)(.*)'
+    # Change the net value of the previous line
+    replace: '\1 "{{ nfs_server_ip }}"'
+
+# Delete jenkins namespace
+- name: Delete Jenkins namespace
+  command: kubectl delete namespace jenkins
+  register: namespace_exists
+  failed_when: namespace_exists.rc == 2
+  become: yes
+  become_user: kubeadmin
+
+# Delete jenkins persistentvolumes
+- name: Delete Jenkins persistentvolumes
+  command: kubectl delete persistentvolumes jenkins-pv
+  register: persistentvolumes_exists
+  failed_when: persistentvolumes_exists.rc == 2
+  become: yes
+  become_user: kubeadmin
+
+# Create jenkins namespace
+- name: Create Jenkins namespace
+  command: kubectl create namespace jenkins
+  become: yes
+  become_user: kubeadmin
+
+# Deploy jenkins app
+- name: Deploy jenkins app
+  command: kubectl apply -f /tmp/jenkins.yaml
+  become: yes
+  become_user: kubeadmin

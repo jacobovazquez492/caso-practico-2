@@ -1,8 +1,8 @@
 ---
 
 - name: Configure master
-  hosts: master
-  gather_facts: false
+  hosts: all
+  gather_facts: true
   vars_files:
     - "group_vars/common_vars.yaml"
     - "group_vars/kubecommon_vars.yaml"
